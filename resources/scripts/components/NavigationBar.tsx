@@ -33,7 +33,7 @@ const RightNavigation = styled.div`
 `;
 
 export default () => {
-    const name = useStoreState((state: ApplicationStore) => state.settings.data!.name);
+    //const name = useStoreState((state: ApplicationStore) => state.settings.data!.name);
     const rootAdmin = useStoreState((state: ApplicationStore) => state.user.data!.rootAdmin);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -56,7 +56,7 @@ export default () => {
                             'text-2xl font-header px-4 no-underline text-neutral-200 hover:text-neutral-100 transition-colors duration-150'
                         }
                     >
-                        {name}
+                        Home
                     </Link>
                 </div>
                 <RightNavigation className={'flex h-full items-center justify-center'}>
