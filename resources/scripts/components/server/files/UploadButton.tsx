@@ -69,9 +69,13 @@ export default ({ className }: WithClassname) => {
         }
 
         const uploads = list.map((file) => {
+            const new_file_name = file.name.replace(/\s\(\d+\)(?=\.[^.]+$)/, '');
             const controller = new AbortController();
+
+            const updatedFile = new File([file], new_file_name, { type: file.type });
+
             pushFileUpload({
-                name: file.name,
+                name: new_file_name,
                 data: { abort: controller, loaded: 0, total: file.size },
             });
 
@@ -80,15 +84,15 @@ export default ({ className }: WithClassname) => {
                     axios
                         .post(
                             url,
-                            { files: file },
+                            { files: updatedFile },
                             {
                                 signal: controller.signal,
                                 headers: { 'Content-Type': 'multipart/form-data' },
                                 params: { directory },
-                                onUploadProgress: (data) => onUploadProgress(data, file.name),
+                                onUploadProgress: (data) => onUploadProgress(data, new_file_name),
                             }
                         )
-                        .then(() => timeouts.value.push(setTimeout(() => removeFileUpload(file.name), 500)))
+                        .then(() => timeouts.value.push(setTimeout(() => removeFileUpload(new_file_name), 500)))
                 );
         });
 
